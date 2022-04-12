@@ -1,5 +1,5 @@
-import type { EndpointOutput } from "@sveltejs/kit";
-import { RequestEvent } from "@sveltejs/kit/types/hooks";
+import type { RequestHandlerOutput } from "@sveltejs/kit";
+import { RequestEvent } from '@sveltejs/kit/types/internal';
 import type { Auth } from "../auth";
 import type { CallbackResult } from "../types";
 
@@ -20,17 +20,17 @@ export abstract class Provider<T extends ProviderConfig = ProviderConfig> {
   }
 
   getCallbackUri(svelteKitAuth: Auth, host?: string) {
-    return this.getUri(svelteKitAuth, `${"/callback/"}${this.id}`, host);
+    return this.getUri(svelteKitAuth, `${ "/callback/" }${ this.id }`, host);
   }
 
   getSigninUri(svelteKitAuth: Auth, host?: string) {
-    return this.getUri(svelteKitAuth, `${"/signin/"}${this.id}`, host);
+    return this.getUri(svelteKitAuth, `${ "/signin/" }${ this.id }`, host);
   }
 
   abstract signin<Locals extends Record<string, any> = Record<string, any>, Body = unknown>(
     event: RequestEvent,
     svelteKitAuth: Auth,
-  ): EndpointOutput | Promise<EndpointOutput>;
+  ): RequestHandlerOutput | Promise<RequestHandlerOutput>;
 
   abstract callback<Locals extends Record<string, any> = Record<string, any>, Body = unknown>(
     event: RequestEvent,

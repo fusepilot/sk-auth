@@ -1,4 +1,4 @@
-import { RequestEvent } from "@sveltejs/kit/types/hooks";
+import { RequestEvent } from '@sveltejs/kit/types/internal';
 import type { Auth } from "../auth";
 import { OAuth2BaseProvider, OAuth2BaseProviderConfig } from "./oauth2.base";
 
@@ -27,7 +27,7 @@ export class TwitterAuthProvider extends OAuth2BaseProvider<any, any, TwitterAut
       oauth_consumer_key: this.config.apiKey,
     };
 
-    const res = await fetch(`${endpoint}?${new URLSearchParams(data)}`, { method: "POST" });
+    const res = await fetch(`${ endpoint }?${ new URLSearchParams(data) }`, { method: "POST" });
     const { oauth_token, oauth_token_secret, oauth_callback_confirmed } = await res.json();
 
     return {
@@ -46,7 +46,7 @@ export class TwitterAuthProvider extends OAuth2BaseProvider<any, any, TwitterAut
       oauth_token: oauthToken,
     };
 
-    const authUrl = `${endpoint}?${new URLSearchParams(data)}`;
+    const authUrl = `${ endpoint }?${ new URLSearchParams(data) }`;
     return authUrl;
   }
 
@@ -59,14 +59,14 @@ export class TwitterAuthProvider extends OAuth2BaseProvider<any, any, TwitterAut
       oauth_verifier: oauthVerifier,
     };
 
-    const res = await fetch(`${endpoint}?${new URLSearchParams(data)}`, { method: "POST" });
+    const res = await fetch(`${ endpoint }?${ new URLSearchParams(data) }`, { method: "POST" });
     return await res.json();
   }
 
   async getUserProfile({ oauth_token, oauth_token_secret: _ }: any) {
     const endpoint = "https://api.twitter.com/1.1/account/verify_credentials.json";
 
-    const res = await fetch(endpoint, { headers: { Authorization: `Bearer ${oauth_token}` } });
+    const res = await fetch(endpoint, { headers: { Authorization: `Bearer ${ oauth_token }` } });
     return await res.json();
   }
 

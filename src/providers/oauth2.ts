@@ -1,4 +1,4 @@
-import { RequestEvent } from "@sveltejs/kit/types/hooks";
+import { RequestEvent } from '@sveltejs/kit/types/internal';
 import type { Auth } from "../auth";
 import { ucFirst } from "../helpers";
 import { OAuth2BaseProvider, OAuth2BaseProviderConfig, OAuth2Tokens } from "./oauth2.base";
@@ -29,7 +29,7 @@ export class OAuth2Provider<
   ProfileType = any,
   TokensType extends OAuth2Tokens = OAuth2Tokens,
   ConfigType extends OAuth2ProviderConfig = OAuth2ProviderConfig<ProfileType, TokensType>,
-> extends OAuth2BaseProvider<ProfileType, TokensType, ConfigType> {
+  > extends OAuth2BaseProvider<ProfileType, TokensType, ConfigType> {
   constructor(config: ConfigType) {
     super({
       ...defaultConfig,
@@ -48,7 +48,7 @@ export class OAuth2Provider<
       ...(this.config.authorizationParams ?? {}),
     };
 
-    const authUrl = `${this.config.authorizationUrl}?${new URLSearchParams(data)}`;
+    const authUrl = `${ this.config.authorizationUrl }?${ new URLSearchParams(data) }`;
     return authUrl;
   }
 
@@ -65,7 +65,7 @@ export class OAuth2Provider<
     let body: string;
     if (this.config.contentType === "application/x-www-form-urlencoded") {
       body = Object.entries(data)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .map(([key, value]) => `${ encodeURIComponent(key) }=${ encodeURIComponent(value) }`)
         .join("&");
     } else {
       body = JSON.stringify(data);
@@ -85,7 +85,7 @@ export class OAuth2Provider<
 
   async getUserProfile(tokens: TokensType): Promise<ProfileType> {
     const res = await fetch(this.config.profileUrl!, {
-      headers: { Authorization: `${ucFirst(tokens.token_type)} ${tokens.access_token}` },
+      headers: { Authorization: `${ ucFirst(tokens.token_type) } ${ tokens.access_token }` },
     });
     return await res.json();
   }
